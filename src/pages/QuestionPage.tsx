@@ -85,31 +85,38 @@ function QuestionPage() {
 
         if (intervalRef.current) clearInterval(intervalRef.current);
 
+        // Fix: append Z to tell browser endTime is UTC
+        const endTimeStr = session.endTime.endsWith("Z")
+          ? session.endTime
+          : session.endTime + "Z";
+
         intervalRef.current = setInterval(() => {
           const now = new Date().getTime();
-          const end = new Date(session.endTime).getTime();
+          const end = new Date(endTimeStr).getTime();
           const diff = end - now;
 
           if (diff <= 0) {
             setTimeLeft("00 : 00");
             if (intervalRef.current) clearInterval(intervalRef.current);
-            // Auto-show modal on timer expiry
             setTimerExpired(true);
             setAcceptedQuestions((prev) => {
-              setModalType(prev.size >= questionIds.length && questionIds.length > 0 ? "congrats" : "warning");
+              setModalType(
+                prev.size >= questionIds.length && questionIds.length > 0
+                  ? "congrats"
+                  : "warning"
+              );
               return prev;
             });
             return;
           }
 
-          const hours = Math.floor(diff / 1000 / 3600);
-          const minutes = Math.floor((diff / 1000 / 60) % 60);
+          const minutes = Math.floor(diff / 1000 / 60);
           const seconds = Math.floor((diff / 1000) % 60);
 
           setTimeLeft(
-            `${hours.toString().padStart(2, "0")} : ${minutes
+            `${minutes.toString().padStart(2, "0")} : ${seconds
               .toString()
-              .padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`
+              .padStart(2, "0")}`
           );
         }, 1000);
       } catch (err) {
