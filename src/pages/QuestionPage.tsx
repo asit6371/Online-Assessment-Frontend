@@ -35,7 +35,7 @@ function QuestionPage() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Tracks questionIds submitted with ACCEPTED verdict
-  const [acceptedQuestions, setAcceptedQuestions] = useState<Set<number>>(new Set());
+  const [, setAcceptedQuestions] = useState<Set<number>>(new Set());
 
   // null = no modal, "congrats" = all done, "warning" = not complete
   const [modalType, setModalType] = useState<"congrats" | "warning" | null>(null);
@@ -167,7 +167,7 @@ function QuestionPage() {
       setSubmitting(true);
       const userId = Number(sessionStorage.getItem("userId"));
       const result = await submitCode({
-        testId: Number(sessionId),
+        sessionId: Number(sessionId),
         questionId: question.id,
         userId,
         code,
