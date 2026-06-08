@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLayerGroup } from "react-icons/fa";
 import { getOverview } from "../services/overviewService";
-import type { OverviewResponse, TopicPerformance } from "../types/overview";
-import type { OverviewResponse, TopicPerformance, RecentSession } from "../types/overview";
+import type { OverviewResponse, TopicPerformance, RecentSession} from "../types/overview";
+
 
 // Topic colors for donut chart and table
 const TOPIC_COLORS = [
@@ -340,7 +340,7 @@ function OverviewPage() {
 
                   {/* Legend */}
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
-                    {overview.topicPerformance.slice(0, 5).map((t: TopicPerformance, i: number) => (
+                    {overview.topicPerformance.slice(0, 5).map((t, i) => (
                       <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                           <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: TOPIC_COLORS[i % TOPIC_COLORS.length] }} />
@@ -414,7 +414,7 @@ function OverviewPage() {
 
               {/* Rows */}
               {overview && overview.recentSessions.length > 0 ? (
-                overview.recentSessions.map((session, i) => {
+                overview.recentSessions.map((session: RecentSession, i: number) => {
                   const pct = session.total === 0 ? 0 : Math.round((session.accepted / session.total) * 100);
                   const color = pct === 100 ? "#4ADE80" : pct >= 50 ? "#FF8A00" : "#F87171";
                   const bg = pct === 100 ? "rgba(74,222,128,0.1)" : pct >= 50 ? "rgba(255,138,0,0.1)" : "rgba(248,113,113,0.1)";
@@ -492,7 +492,7 @@ function OverviewPage() {
             </div>
 
             {overview && overview.topicPerformance.length > 0 ? (
-              overview.topicPerformance.map((t, i) => (
+              overview.topicPerformance.map((t: TopicPerformance, i: number) => (
                 <div
                   key={i}
                   style={{
