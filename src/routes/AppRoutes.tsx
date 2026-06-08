@@ -11,6 +11,7 @@ import TestDetailsPage from "../pages/TestDetailsPage";
 import ProtectedRoute from "./ProtectedRoute";
 import RegisterPage from "../pages/RegisterPage";
 import LandingPage from "../pages/LandingPage";
+import OverviewPage from "../pages/OverviewPage";
 
 // KEPT: Crucial imports for your simplified footer pages
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
@@ -41,6 +42,16 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+         {/* Overview Route */}
+                <Route
+                  path="/overview"
+                  element={
+                    <ProtectedRoute>
+                      <OverviewPage />
+                    </ProtectedRoute>
+                  }
+                />
 
         {/* Legacy routes — kept intact for backward compatibility */}
         <Route
