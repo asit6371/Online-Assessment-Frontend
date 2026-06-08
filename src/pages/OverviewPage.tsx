@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaLayerGroup } from "react-icons/fa";
 import { getOverview } from "../services/overviewService";
 import type { OverviewResponse, TopicPerformance } from "../types/overview";
+import type { OverviewResponse, TopicPerformance, RecentSession } from "../types/overview";
 
 // Topic colors for donut chart and table
 const TOPIC_COLORS = [
@@ -339,7 +340,7 @@ function OverviewPage() {
 
                   {/* Legend */}
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
-                    {overview.topicPerformance.slice(0, 5).map((t, i) => (
+                    {overview.topicPerformance.slice(0, 5).map((t: TopicPerformance, i: number) => (
                       <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                           <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: TOPIC_COLORS[i % TOPIC_COLORS.length] }} />
