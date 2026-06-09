@@ -29,7 +29,7 @@ function QuestionPage() {
   const [leftTab, setLeftTab] = useState<"problem" | "submissions">("problem");
   const [showHint, setShowHint] = useState(false);
   const [consoleOutput, setConsoleOutput] = useState(
-    "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
+    "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
   );
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -233,7 +233,7 @@ function QuestionPage() {
           setConsoleOutput(lines.join("\n") + "\n>");
         } else {
           setConsoleOutput(
-            "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
+            "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
           );
         }
       } else {
@@ -242,7 +242,7 @@ function QuestionPage() {
         setRunResult(null);
         setSubmissionResult(null);
         setConsoleOutput(
-          "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
+          "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
         );
       }
     } catch (err) {
@@ -1222,7 +1222,7 @@ function QuestionPage() {
                 <button
                   onClick={() =>
                     setConsoleOutput(
-                      "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
+                      "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
                     )
                   }
                   style={{

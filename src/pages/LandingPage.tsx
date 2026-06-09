@@ -165,7 +165,7 @@ function LandingPage() {
               />
             </div>
             <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.3px" }}>
-              Assess<span style={{ color: "#FF8A00" }}>Mate</span>
+              Judge<span style={{ color: "#FF8A00" }}>X</span>
             </span>
           </div>
 
@@ -585,7 +585,7 @@ function LandingPage() {
             color: "#6B7280",
           }}
         >
-          <span>© 2026 AssessMate. All rights reserved. Version 1.0.2</span>
+          <span>© 2026 JudgeX. All rights reserved. Version 1.0.2</span>
           <div className="flex gap-6">
             {["Privacy Policy", "Terms of Service", "Contact Us"].map((item) => (
               <span
