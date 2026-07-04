@@ -101,7 +101,10 @@ function QuestionPage() {
 
         intervalRef.current = setInterval(() => {
           const now = new Date().getTime();
-          const end = new Date(session.endTime).getTime();
+         const endTimeStr = session.endTime.endsWith("Z")
+           ? session.endTime
+           : session.endTime + "Z";
+         const end = new Date(endTimeStr).getTime();
           const diff = end - now;
 
           if (diff <= 0) {
