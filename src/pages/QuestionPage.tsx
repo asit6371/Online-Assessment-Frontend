@@ -6,6 +6,7 @@ import { getSession } from "../services/sessionService";
 import { getQuestionById } from "../services/questionService";
 import { submitCode } from "../services/submissionService";
 import { FaLayerGroup } from "react-icons/fa";
+import { getStream, stopStream } from "../utils/streamManager";
 import type { QuestionResponse } from "../types/question";
 import type { JudgeResponse } from "../types/judge";
 import type { SubmissionResponse } from "../types/submission";
@@ -29,13 +30,14 @@ function QuestionPage() {
   const [leftTab, setLeftTab] = useState<"problem" | "submissions">("problem");
   const [showHint, setShowHint] = useState(false);
   const [consoleOutput, setConsoleOutput] = useState(
-    "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
+    "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
   );
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // Tracks questionIds submitted with ACCEPTED verdict
-  const [, setAcceptedQuestions] = useState<Set<number>>(new Set());
+  const [acceptedQuestions, setAcceptedQuestions] = useState<Set<number>>(new Set());
 
   // null = no modal, "congrats" = all done, "warning" = not complete
   const [modalType, setModalType] = useState<"congrats" | "warning" | null>(null);
@@ -75,6 +77,18 @@ function QuestionPage() {
     load();
   }, [sessionId]);
 
+  // Attach camera stream to video element
+  useEffect(() => {
+    const stream = getStream();
+    if (stream && videoRef.current) {
+      videoRef.current.srcObject = stream;
+    }
+    // Cleanup on unmount — stop stream when leaving assessment
+    return () => {
+      stopStream();
+    };
+  }, []);
+
   // Timer — properly cleaned up
   useEffect(() => {
     const startTimer = async () => {
@@ -85,38 +99,31 @@ function QuestionPage() {
 
         if (intervalRef.current) clearInterval(intervalRef.current);
 
-        // Fix: append Z to tell browser endTime is UTC
-        const endTimeStr = session.endTime.endsWith("Z")
-          ? session.endTime
-          : session.endTime + "Z";
-
         intervalRef.current = setInterval(() => {
           const now = new Date().getTime();
-          const end = new Date(endTimeStr).getTime();
+          const end = new Date(session.endTime).getTime();
           const diff = end - now;
 
           if (diff <= 0) {
             setTimeLeft("00 : 00");
             if (intervalRef.current) clearInterval(intervalRef.current);
+            // Auto-show modal on timer expiry
             setTimerExpired(true);
             setAcceptedQuestions((prev) => {
-              setModalType(
-                prev.size >= questionIds.length && questionIds.length > 0
-                  ? "congrats"
-                  : "warning"
-              );
+              setModalType(prev.size >= questionIds.length && questionIds.length > 0 ? "congrats" : "warning");
               return prev;
             });
             return;
           }
 
-          const minutes = Math.floor(diff / 1000 / 60);
+          const hours = Math.floor(diff / 1000 / 3600);
+          const minutes = Math.floor((diff / 1000 / 60) % 60);
           const seconds = Math.floor((diff / 1000) % 60);
 
           setTimeLeft(
-            `${minutes.toString().padStart(2, "0")} : ${seconds
+            `${hours.toString().padStart(2, "0")} : ${minutes
               .toString()
-              .padStart(2, "0")}`
+              .padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`
           );
         }, 1000);
       } catch (err) {
@@ -174,7 +181,7 @@ function QuestionPage() {
       setSubmitting(true);
       const userId = Number(sessionStorage.getItem("userId"));
       const result = await submitCode({
-        sessionId: Number(sessionId),
+        testId: Number(sessionId),
         questionId: question.id,
         userId,
         code,
@@ -233,7 +240,7 @@ function QuestionPage() {
           setConsoleOutput(lines.join("\n") + "\n>");
         } else {
           setConsoleOutput(
-            "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
+            "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
           );
         }
       } else {
@@ -242,7 +249,7 @@ function QuestionPage() {
         setRunResult(null);
         setSubmissionResult(null);
         setConsoleOutput(
-          "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
+          "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
         );
       }
     } catch (err) {
@@ -1222,7 +1229,7 @@ function QuestionPage() {
                 <button
                   onClick={() =>
                     setConsoleOutput(
-                      "Welcome to JudgeX Online Judge.\nRun your code to see output here...\n>"
+                      "Welcome to AssessMate Online Judge.\nRun your code to see output here...\n>"
                     )
                   }
                   style={{
@@ -1260,6 +1267,61 @@ function QuestionPage() {
           </div>
         </div>
       </div>
+      {/* ══════════════ CAMERA PIP ══════════════ */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: 80,
+          right: 24,
+          width: 160,
+          height: 120,
+          borderRadius: 12,
+          overflow: "hidden",
+          border: "2px solid rgba(255,138,0,0.4)",
+          backgroundColor: "#0D1117",
+          zIndex: 150,
+          boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+        }}
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transform: "scaleX(-1)",
+          }}
+        />
+        {/* Live indicator */}
+        <div
+          style={{
+            position: "absolute",
+            top: 8,
+            left: 8,
+            display: "flex",
+            alignItems: "center",
+            gap: 5,
+            backgroundColor: "rgba(0,0,0,0.6)",
+            padding: "3px 8px",
+            borderRadius: 20,
+          }}
+        >
+          <div
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              backgroundColor: "#EF4444",
+              animation: "pulse 1.5s infinite",
+            }}
+          />
+          <span style={{ fontSize: 10, color: "#fff", fontWeight: 600 }}>LIVE</span>
+        </div>
+      </div>
+
       {/* ══════════════ MODALS ══════════════ */}
       {modalType && (
         <div
@@ -1319,7 +1381,7 @@ function QuestionPage() {
                   assessment. Best of luck for your future!
                 </p>
                 <button
-                  onClick={() => navigate("/")}
+                  onClick={() => { stopStream(); navigate("/"); }}
                   style={{
                     width: "100%",
                     padding: "12px 0",
@@ -1405,7 +1467,7 @@ function QuestionPage() {
                     </button>
                   )}
                   <button
-                    onClick={() => navigate("/")}
+                    onClick={() => { stopStream(); navigate("/"); }}
                     style={{
                       flex: timerExpired ? undefined : 1,
                       width: timerExpired ? "100%" : undefined,
