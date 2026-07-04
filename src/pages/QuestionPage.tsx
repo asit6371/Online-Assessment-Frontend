@@ -181,7 +181,7 @@ function QuestionPage() {
       setSubmitting(true);
       const userId = Number(sessionStorage.getItem("userId"));
       const result = await submitCode({
-        testId: Number(sessionId),
+        sessionId: Number(sessionId),
         questionId: question.id,
         userId,
         code,
