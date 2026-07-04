@@ -64,13 +64,13 @@ function PrivacyPolicyPage() {
 
       {/* MINIMAL NAVBAR */}
       <nav className="h-16 border-b border-zinc-800/60 flex items-center justify-between px-8 md:px-16 sticky top-0 bg-[#060B13]/90 backdrop-blur-sm z-50">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => { stopStream(); navigate("/"); }}>
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
           <span className="text-white font-bold tracking-tight text-lg">JudgeX</span>
           <span className="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-mono">LEGAL</span>
         </div>
 
         <button
-          onClick={() => { stopStream(); navigate("/"); }}
+         onClick={() => navigate("/")}
           className="flex items-center gap-2 text-xs font-medium text-zinc-400 hover:text-white transition-colors"
         >
           <FaArrowLeft className="text-[10px]" />

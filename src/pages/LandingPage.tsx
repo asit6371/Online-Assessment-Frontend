@@ -148,7 +148,7 @@ function LandingPage() {
         <div className="flex items-center gap-10">
           <div
             className="flex items-center gap-2 cursor-pointer"
-            onClick={() => { stopStream(); navigate("/"); }}
+            onClick={() => navigate("/")}
           >
             <div
               className="flex items-center justify-center"

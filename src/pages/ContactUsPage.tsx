@@ -52,7 +52,7 @@ function ContactUsPage() {
 
         <div
           className="flex items-center gap-2 cursor-pointer"
-          onClick={() => { stopStream(); navigate("/"); }}
+          onClick={() => navigate("/")}
         >
           <span className="text-white font-bold tracking-tight text-lg">
             JudgeX
@@ -64,7 +64,7 @@ function ContactUsPage() {
         </div>
 
         <button
-          onClick={() => { stopStream(); navigate("/"); }}
+          onClick={() => navigate("/")}
           className="flex items-center gap-2 text-xs font-medium text-zinc-400 hover:text-white transition-colors"
         >
           <FaArrowLeft className="text-[10px]" />
