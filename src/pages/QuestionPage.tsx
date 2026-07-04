@@ -365,7 +365,7 @@ function QuestionPage() {
               />
             </div>
             <span style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>
-              Assess<span style={{ color: "#FF8A00" }}>Mate</span>
+              Judge<span style={{ color: "#FF8A00" }}>X</span>
             </span>
           </div>
 
