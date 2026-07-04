@@ -115,7 +115,7 @@ function OverviewPage() {
       >
         {/* Logo */}
         <div
-          onClick={() => navigate("/")}
+          onClick={() => { stopStream(); navigate("/"); }}
           style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}
         >
           <div
@@ -244,7 +244,7 @@ function OverviewPage() {
             </div>
 
             <button
-              onClick={() => navigate("/")}
+              onClick={() => { stopStream(); navigate("/"); }}
               style={{
                 display: "flex",
                 alignItems: "center",

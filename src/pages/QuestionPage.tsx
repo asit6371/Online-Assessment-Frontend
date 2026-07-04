@@ -37,7 +37,7 @@ function QuestionPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // Tracks questionIds submitted with ACCEPTED verdict
-  const [acceptedQuestions, setAcceptedQuestions] = useState<Set<number>>(new Set());
+  const [, setAcceptedQuestions] = useState<Set<number>>(new Set());
 
   // null = no modal, "congrats" = all done, "warning" = not complete
   const [modalType, setModalType] = useState<"congrats" | "warning" | null>(null);

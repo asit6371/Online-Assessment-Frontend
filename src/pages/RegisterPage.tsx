@@ -124,7 +124,7 @@ function RegisterPage() {
         }}
       >
         <div
-          onClick={() => navigate("/")}
+          onClick={() => { stopStream(); navigate("/"); }}
           style={{
             display: "flex",
             alignItems: "center",
