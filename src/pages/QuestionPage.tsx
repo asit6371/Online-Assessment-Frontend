@@ -36,6 +36,18 @@ function QuestionPage() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  const [pipPosition, setPipPosition] = useState({
+    x: 24,
+    y: 80,
+  });
+
+  const isDragging = useRef(false);
+
+  const dragOffset = useRef({
+    x: 0,
+    y: 0,
+  });
+
   // Tracks questionIds submitted with ACCEPTED verdict
   const [, setAcceptedQuestions] = useState<Set<number>>(new Set());
 
@@ -79,13 +91,51 @@ function QuestionPage() {
 
   // Attach camera stream to video element
   useEffect(() => {
-    const stream = getStream();
-    if (stream && videoRef.current) {
-      videoRef.current.srcObject = stream;
-    }
-    // Cleanup on unmount — stop stream when leaving assessment
+    const attachStream = () => {
+      const stream = getStream();
+
+      if (stream && videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play().catch(() => {});
+      }
+    };
+
+    attachStream();
+
+    const timeout = setTimeout(attachStream, 500);
+
     return () => {
+      clearTimeout(timeout);
       stopStream();
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+
+      setPipPosition({
+        x: Math.max(
+          0,
+          window.innerWidth - e.clientX - dragOffset.current.x
+        ),
+        y: Math.max(
+          0,
+          window.innerHeight - e.clientY - dragOffset.current.y
+        ),
+      });
+    };
+
+    const handleMouseUp = () => {
+      isDragging.current = false;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
 
@@ -412,8 +462,7 @@ function QuestionPage() {
             style={{
               fontSize: 20,
               fontWeight: 700,
-              color: timeLeft === "00 : 00 : 00" ? "#F87171" : "#FF8A00",
-              letterSpacing: "0.05em",
+              color: timeLeft === "00 : 00" ? "#F87171" : "#FF8A00",              letterSpacing: "0.05em",
               fontVariantNumeric: "tabular-nums",
             }}
           >
@@ -1274,8 +1323,8 @@ function QuestionPage() {
       <div
         style={{
           position: "fixed",
-          bottom: 80,
-          right: 24,
+          bottom: pipPosition.y,
+          right: pipPosition.x,
           width: 160,
           height: 120,
           borderRadius: 12,
@@ -1284,6 +1333,19 @@ function QuestionPage() {
           backgroundColor: "#0D1117",
           zIndex: 150,
           boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+          cursor: isDragging.current ? "grabbing" : "grab",
+          userSelect: "none",
+        }}
+
+        onMouseDown={(e) => {
+          isDragging.current = true;
+
+          dragOffset.current = {
+            x: window.innerWidth - e.clientX - pipPosition.x,
+            y: window.innerHeight - e.clientY - pipPosition.y,
+          };
+
+          e.preventDefault();
         }}
       >
         <video
@@ -1296,6 +1358,7 @@ function QuestionPage() {
             height: "100%",
             objectFit: "cover",
             transform: "scaleX(-1)",
+            display: "block",
           }}
         />
         {/* Live indicator */}

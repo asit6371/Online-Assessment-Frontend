@@ -76,8 +76,8 @@ function LandingPage() {
       active: true,
     },
     {
-      title: "Java Core Assessment",
-      category: "PHONE INTERVIEW",
+      title: "System Design",
+      category: "INTERVIEW PREPARATION",
       questions: "--",
       duration: "--",
       icon: <FaMobileAlt className="text-xl text-[#FF8A00]" />,
