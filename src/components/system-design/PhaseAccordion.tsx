@@ -5,7 +5,6 @@ import {
   FiCheckCircle,
   FiCircle,
   FiClock,
-  FiBookOpen,
   FiArrowRight,
 } from "react-icons/fi";
 import type {

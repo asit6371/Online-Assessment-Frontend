@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  FiCpu,
-  FiLayers,
-  FiAward,
   FiClock,
   FiTrendingUp,
   FiZap,
   FiCheckCircle,
-  FiBookOpen,
   FiCompass,
 } from "react-icons/fi";
 import { FaFire } from "react-icons/fa";
@@ -28,7 +23,6 @@ import type {
 } from "../../types/systemDesign";
 
 export default function SystemDesignHomePage() {
-  const navigate = useNavigate();
   const userId = Number(sessionStorage.getItem("userId") || 0);
 
   const [tracks, setTracks] = useState<SystemDesignTrack[]>([]);

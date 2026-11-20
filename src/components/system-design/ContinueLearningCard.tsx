@@ -128,7 +128,7 @@ export default function ContinueLearningCard({
   const latest = recentTopics[0];
   const isLld = latest.trackType === "LLD";
   const themeColor = isLld ? "#FF8A00" : "#38BDF8";
-  const trackRoute = isLld ? "/system-design/lld" : "/system-design/hld";
+
 
   return (
     <div

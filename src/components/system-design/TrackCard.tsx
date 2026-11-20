@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { FiCpu, FiLayers, FiArrowRight, FiCheckCircle, FiClock, FiCode } from "react-icons/fi";
+import { FiCpu, FiLayers, FiArrowRight } from "react-icons/fi";
 import type { SystemDesignTrack } from "../../types/systemDesign";
 
 interface TrackCardProps {

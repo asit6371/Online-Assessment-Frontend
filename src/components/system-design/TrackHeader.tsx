@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiCpu, FiLayers, FiCheckCircle, FiBookOpen, FiCode } from "react-icons/fi";
+import { FiArrowLeft, FiCpu, FiLayers } from "react-icons/fi";
 import type { SystemDesignTrack } from "../../types/systemDesign";
 
 interface TrackHeaderProps {
@@ -7,8 +7,7 @@ interface TrackHeaderProps {
   allTracks?: SystemDesignTrack[];
 }
 
-export default function TrackHeader({ track, allTracks }: TrackHeaderProps) {
-  const navigate = useNavigate();
+export default function TrackHeader({ track }: TrackHeaderProps) {  const navigate = useNavigate();
   const isLld = track.trackType === "LLD";
 
   const theme = isLld

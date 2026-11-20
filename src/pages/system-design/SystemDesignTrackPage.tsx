@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { FiSearch, FiFilter, FiAlertCircle, FiRefreshCw } from "react-icons/fi";
+import { FiSearch, FiAlertCircle } from "react-icons/fi";
 import SystemDesignNavbar from "../../components/system-design/SystemDesignNavbar";
 import TrackHeader from "../../components/system-design/TrackHeader";
 import PhaseAccordion from "../../components/system-design/PhaseAccordion";

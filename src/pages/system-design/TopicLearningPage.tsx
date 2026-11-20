@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   FiArrowLeft,
   FiCheckCircle,
-  FiCircle,
   FiBookOpen,
   FiCode,
   FiLayers,
@@ -13,9 +12,7 @@ import {
   FiCopy,
   FiCheck,
   FiAlertCircle,
-  FiRefreshCw,
   FiChevronRight,
-  FiClock,
 } from "react-icons/fi";
 import SystemDesignNavbar from "../../components/system-design/SystemDesignNavbar";
 import Footer from "../../components/Footer";
@@ -24,7 +21,7 @@ import {
   visitTopic,
   completeTopic,
 } from "../../services/systemDesignService";
-import type { SystemDesignTopicDetail, TrackType } from "../../types/systemDesign";
+import type { SystemDesignTopicDetail} from "../../types/systemDesign";
 
 type ContentTab =
   | "overview"
@@ -216,7 +213,7 @@ export default function TopicLearningPage() {
           if (part.type === "code") {
             const blockId = `code-block-${index}`;
             const isCopied = copiedCode === blockId;
-            const isMermaid = part.lang?.toLowerCase() === "mermaid";
+            const isMermaid = (part.lang ?? "text").toLowerCase() === "mermaid";
 
             return (
               <div
@@ -256,8 +253,9 @@ export default function TopicLearningPage() {
                         marginLeft: 6,
                       }}
                     >
-                      {isMermaid ? "Architecture Specification" : part.lang.toUpperCase() || "CODE"}
-                    </span>
+{isMermaid
+  ? "Architecture Specification"
+  : (part.lang ?? "CODE").toUpperCase()}                    </span>
                   </div>
 
                   <button

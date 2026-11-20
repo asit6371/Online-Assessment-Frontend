@@ -12,8 +12,9 @@ import type { JudgeResponse } from "../types/judge";
 import type { SubmissionResponse } from "../types/submission";
 
 function QuestionPage() {
-  const { sessionId } = useParams();
   const navigate = useNavigate();
+  const { sessionId } = useParams();
+
 
   const [question, setQuestion] = useState<QuestionResponse | null>(null);
   const [loading, setLoading] = useState(true);
