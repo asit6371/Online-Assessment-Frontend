@@ -6,9 +6,10 @@ import {
   FaBuilding,
   FaUsers,
   FaRegClock,
-  FaLayerGroup
+  FaLayerGroup,
 } from "react-icons/fa";
 import StartAssessmentModal from "../components/StartAssessmentModal";
+import Footer from "../components/Footer";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -56,6 +57,15 @@ function LandingPage() {
   };
 
   const handleStart = (cardTitle: string) => {
+    if (cardTitle === "System Design") {
+      if (!isLoggedIn) {
+        navigate("/login");
+        return;
+      }
+      navigate("/system-design");
+      return;
+    }
+
     if (cardTitle !== "DSA Assessment") return;
 
     if (!isLoggedIn) {
@@ -74,14 +84,16 @@ function LandingPage() {
       duration: 60,
       icon: <FaLaptopCode className="text-xl text-[#FF8A00]" />,
       active: true,
+      description: "Random question set from real company.",
     },
     {
       title: "System Design",
       category: "INTERVIEW PREPARATION",
-      questions: "--",
-      duration: "--",
+      questions: "68+ Topics",
+      duration: "2 Tracks (LLD & HLD)",
       icon: <FaMobileAlt className="text-xl text-[#FF8A00]" />,
-      active: false,
+      active: true,
+      description: "Structured curriculum for Low-Level & High-Level Design.",
     },
     {
       title: "Spring Boot Assessment",
@@ -90,6 +102,7 @@ function LandingPage() {
       duration: "--",
       icon: <FaBuilding className="text-xl text-[#FF8A00]" />,
       active: false,
+      description: "Coming soon.",
     },
   ];
 
@@ -136,11 +149,13 @@ function LandingPage() {
 
       {/* ════════════════════ NAVBAR ════════════════════ */}
       <nav
-        className="h-[72px] flex items-center justify-between sticky top-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between"
         style={{
+          height: 72,
           borderBottom: "1px solid rgba(255,255,255,0.07)",
-          backgroundColor: "rgba(6,11,19,0.92)",
-          backdropFilter: "blur(10px)",
+          backgroundColor: "rgba(6,11,19,0.95)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
           padding: "0 48px",
         }}
       >
@@ -471,7 +486,7 @@ function LandingPage() {
       {/* ════════════════════ MAIN ════════════════════ */}
       <main
         className="relative z-10 flex-1"
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 80px 80px" }}
+        style={{ maxWidth: 1280, margin: "0 auto", padding: "152px 80px 80px" }}
       >
         {/* ── HERO ── */}
         <section style={{ marginBottom: 72, maxWidth: 680 }}>
@@ -502,8 +517,8 @@ function LandingPage() {
             from a collection of real company questions.
           </p>
 
-          {/* Always visible — placeholder links for future pages */}
-          <div className="flex items-center gap-5" style={{ fontSize: 15 }}>
+          {/* Link to overview */}
+          <div className="flex items-center" style={{ fontSize: 15 }}>
             <button
               onClick={() => navigate("/overview")}
               style={{
@@ -522,26 +537,6 @@ function LandingPage() {
               }
             >
               Go to My Overview
-            </button>
-            <span style={{ color: "#374151" }}>|</span>
-            <button
-              onClick={() => navigate("/register")}
-              style={{
-                background: "none",
-                border: "none",
-                color: "#3B82F6",
-                cursor: "pointer",
-                fontSize: 15,
-                padding: 0,
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.textDecoration = "underline")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.textDecoration = "none")
-              }
-            >
-              Go to My Assessment History
             </button>
           </div>
         </section>
@@ -565,46 +560,7 @@ function LandingPage() {
       </main>
 
       {/* ════════════════════ FOOTER ════════════════════ */}
-      <footer
-        className="relative z-10"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          backgroundColor: "#060B13",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "0 48px",
-            height: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            fontSize: 12,
-            color: "#6B7280",
-          }}
-        >
-          <span>© 2026 JudgeX. All rights reserved. Version 1.0.2</span>
-          <div className="flex gap-6">
-            {["Privacy Policy", "Terms of Service", "Contact Us"].map((item) => (
-              <span
-                key={item}
-                className="cursor-pointer transition-colors"
-                onClick={() => {
-                  if (item === "Privacy Policy") navigate("/privacy-policy");
-                  if (item === "Terms of Service") navigate("/terms");
-                  if (item === "Contact Us") navigate("/contact");
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       {/* ── Modal ── */}
       {showModal && (
@@ -626,13 +582,14 @@ function AssessmentCard({
     duration: number | string;
     icon: React.ReactNode;
     active: boolean;
+    description?: string;
   };
   onStart: () => void;
 }) {
   return (
     <div
       style={{
-        backgroundColor: "#0B131F",
+        backgroundColor: "#0B1322",
         border: "1px solid rgba(255,255,255,0.08)",
         borderRadius: 18,
         padding: "32px 28px",
@@ -693,7 +650,9 @@ function AssessmentCard({
         </div>
 
         <p style={{ fontSize: 15, color: "#9CA3AF", lineHeight: 1.65 }}>
-          {card.active
+          {card.description
+            ? card.description
+            : card.active
             ? "Random question set from real company."
             : "Coming soon."}
         </p>
@@ -721,7 +680,11 @@ function AssessmentCard({
             }}
           >
             <FaUsers style={{ fontSize: 14 }} />
-            <span>{card.questions} Questions</span>
+            <span>
+              {typeof card.questions === "number"
+                ? `${card.questions} Questions`
+                : card.questions}
+            </span>
           </div>
           <div
             style={{
@@ -733,7 +696,11 @@ function AssessmentCard({
             }}
           >
             <FaRegClock style={{ fontSize: 14 }} />
-            <span>{card.duration} Minutes</span>
+            <span>
+              {typeof card.duration === "number"
+                ? `${card.duration} Minutes`
+                : card.duration}
+            </span>
           </div>
         </div>
 

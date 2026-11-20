@@ -16,6 +16,7 @@ function ContactUsPage() {
       title: "Email Support",
       icon: <FaEnvelope />,
       value: "support@judgex.com",
+      href: "mailto:support@judgex.com",
       description:
         "For general questions, platform issues, account support, and feedback."
     },
@@ -23,7 +24,8 @@ function ContactUsPage() {
       id: "linkedin",
       title: "LinkedIn",
       icon: <FaLinkedin />,
-      value: "linkedin.com/in/your-profile",
+      value: "linkedin.com/in/asitpanda577",
+      href: "https://linkedin.com/in/asitpanda577",
       description:
         "Connect professionally and follow platform updates."
     },
@@ -31,7 +33,8 @@ function ContactUsPage() {
       id: "github",
       title: "GitHub",
       icon: <FaGithub />,
-      value: "github.com/your-profile",
+      value: "github.com/asit6371",
+      href: "https://github.com/asit6371",
       description:
         "Explore source code, projects, and technical contributions."
     },
@@ -40,6 +43,7 @@ function ContactUsPage() {
       title: "Website",
       icon: <FaGlobe />,
       value: "www.judgex.com",
+      href: "https://www.judgex.com",
       description:
         "Visit our platform and explore new assessment features."
     }
@@ -134,9 +138,14 @@ function ContactUsPage() {
                   {method.description}
                 </p>
 
-                <div className="bg-zinc-900/30 border border-zinc-800/60 rounded-xl px-4 py-3 text-sm font-mono text-[#FF8A00]">
+                <a
+                  href={method.href}
+                  target={method.id === "email" ? undefined : "_blank"}
+                  rel={method.id === "email" ? undefined : "noopener noreferrer"}
+                  className="inline-block bg-zinc-900/30 border border-zinc-800/60 hover:border-[#FF8A00]/50 rounded-xl px-4 py-3 text-sm font-mono text-[#FF8A00] hover:underline transition-colors"
+                >
                   {method.value}
-                </div>
+                </a>
 
               </section>
             ))}

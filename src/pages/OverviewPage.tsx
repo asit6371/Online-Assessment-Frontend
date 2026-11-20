@@ -170,7 +170,7 @@ function OverviewPage() {
           }}
         >
           {/* Overview active item */}
-          <div style={{ padding: "0 16px" }}>
+          <div style={{ padding: "0 16px", display: "flex", flexDirection: "column", gap: 8 }}>
             <div
               style={{
                 display: "flex",
@@ -186,6 +186,34 @@ function OverviewPage() {
               <span style={{ fontSize: 16 }}>⊞</span>
               <span style={{ fontSize: 14, fontWeight: 600, color: "#FF8A00" }}>
                 Overview
+              </span>
+            </div>
+
+            <div
+              onClick={() => navigate("/system-design")}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "10px 14px",
+                backgroundColor: "transparent",
+                border: "1px solid transparent",
+                borderRadius: 10,
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.05)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.borderColor = "transparent";
+              }}
+            >
+              <span style={{ fontSize: 16 }}>⚡</span>
+              <span style={{ fontSize: 14, fontWeight: 500, color: "#9CA3AF" }}>
+                System Design
               </span>
             </div>
           </div>

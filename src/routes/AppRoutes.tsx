@@ -13,10 +13,14 @@ import RegisterPage from "../pages/RegisterPage";
 import LandingPage from "../pages/LandingPage";
 import OverviewPage from "../pages/OverviewPage";
 
-// KEPT: Crucial imports for your simplified footer pages
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
 import TermsOfServicePage from "../pages/TermsOfServicePage";
 import ContactUsPage from "../pages/ContactUsPage";
+
+// System Design Platform Pages
+import SystemDesignHomePage from "../pages/system-design/SystemDesignHomePage";
+import SystemDesignTrackPage from "../pages/system-design/SystemDesignTrackPage";
+import TopicLearningPage from "../pages/system-design/TopicLearningPage";
 
 function AppRoutes() {
   return (
@@ -27,6 +31,64 @@ function AppRoutes() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+
+        {/* System Design Routes — Protected */}
+        <Route
+          path="/system-design"
+          element={
+            <ProtectedRoute>
+              <SystemDesignHomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-design/lld"
+          element={
+            <ProtectedRoute>
+              <SystemDesignTrackPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-design/hld"
+          element={
+            <ProtectedRoute>
+              <SystemDesignTrackPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-design/track/:trackId"
+          element={
+            <ProtectedRoute>
+              <SystemDesignTrackPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-design/lld/topic/:topicId"
+          element={
+            <ProtectedRoute>
+              <TopicLearningPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-design/hld/topic/:topicId"
+          element={
+            <ProtectedRoute>
+              <TopicLearningPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/system-design/topic/:topicId"
+          element={
+            <ProtectedRoute>
+              <TopicLearningPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* KEPT: Legal static pages from your footer links */}
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
